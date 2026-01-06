@@ -155,7 +155,7 @@ public class Statistics {
             m.bitsPerElement = (filterSizeBytes * 8.0) / numElements;
 
             // False positive test using odd numbers
-            int testSamples = Math.min(100_000, numElements);
+            int testSamples = 200_000;
             int falsePositives = 0;
             for (int i = 0; i < testSamples; i++) {
                 long testKey = (i * 2L) + 1;

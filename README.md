@@ -16,7 +16,7 @@ This library wraps the [xorfilter](https://github.com/FastFilter/xorfilter) C li
 
 ## Requirements
 
-- Java 21+
+- Java 22+
 - GCC or compatible C compiler
 - macOS/Linux (Windows support would require additional configuration)
 

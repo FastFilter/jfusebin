@@ -66,3 +66,23 @@ void xfuse_binary_fuse8_free(binary_fuse8_t *filter) {
 size_t xfuse_binary_fuse8_size_in_bytes(const binary_fuse8_t *filter) {
     return binary_fuse8_size_in_bytes(filter);
 }
+
+bool xfuse_binary_fuse16_allocate(uint32_t size, binary_fuse16_t *filter) {
+    return binary_fuse16_allocate(size, filter);
+}
+
+bool xfuse_binary_fuse16_populate(uint64_t *keys, uint32_t size, binary_fuse16_t *filter) {
+    return binary_fuse16_populate(keys, size, filter);
+}
+
+bool xfuse_binary_fuse16_contain(uint64_t key, const binary_fuse16_t *filter) {
+    return binary_fuse16_contain(key, filter);
+}
+
+void xfuse_binary_fuse16_free(binary_fuse16_t *filter) {
+    binary_fuse16_free(filter);
+}
+
+size_t xfuse_binary_fuse16_size_in_bytes(const binary_fuse16_t *filter) {
+    return binary_fuse16_size_in_bytes(filter);
+}

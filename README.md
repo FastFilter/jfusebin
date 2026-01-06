@@ -1,24 +1,22 @@
-# XorFilter Java Library
+# The jfusebin Java Library
 
-A Java library that provides access to high-performance XOR filters using Java's Foreign Function & Memory (FFM) API.
+A Java library that provides access to high-performance XOR and Binary Fuse filters using Java's Foreign Function & Memory (FFM) API.
 
 ## Overview
 
-This library wraps the [xorfilter](https://github.com/FastFilter/xorfilter) C library, providing Java bindings for probabilistic data structures that can efficiently test set membership with low false positive rates.
+This library wraps a C library, providing Java bindings for probabilistic data structures that can efficiently test set membership with low false positive rates.
 
 ## Features
 
-- **Xor8 Filter**: ~0.3% false positive rate, 8 bits per key
-- **Xor16 Filter**: Lower false positive rate, 16 bits per key
-- **Binary Fuse8 Filter**: Alternative implementation with different performance characteristics
-- Uses Java 21's incubator FFM API for direct native calls
-- Memory-efficient and high-performance
+
+- **Xor8 Filter**, - **Binary Fuse8 Filter**: 0.39% false positive rate, slightly over 8 bits per key, for larger inputs, the Binary Fuse8 Filter is smaller and faster
+- **Xor16 Filter**, - **Binary Fuse16 Filter**: 0.0015% false positive rate, slightly over 16 bits per key, for larger inputs, the Binary Fuse16 Filter is smaller and faster
+
 
 ## Requirements
 
 - Java 22+
-- GCC or compatible C compiler
-- macOS/Linux (Windows support would require additional configuration)
+- GCC, LLVM or compatible C compiler
 
 ## Building
 
@@ -26,20 +24,11 @@ This library wraps the [xorfilter](https://github.com/FastFilter/xorfilter) C li
 2. Run Maven to build:
 
 ```bash
-mvn clean compile
-mvn exec:exec@compile-native
+mvn clean compile exec:exec@compile-native
 ```
 
-This will:
-- Compile the Java classes with JMH annotation processing
-- Compile the native C wrapper library
-- Place the native library in `target/classes/`
 
-Or build everything at once:
 
-```bash
-mvn clean compile
-```
 
 ## Usage
 
@@ -114,9 +103,3 @@ Key results:
 - **Java Layer**: FFM API bindings that manage memory and call native functions
 - **Resource Management**: Uses ResourceScope for automatic memory management
 
-## Performance
-
-The filters provide:
-- Fast construction and lookup
-- Low memory overhead (~8-16 bits per key)
-- Configurable false positive rates

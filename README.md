@@ -14,6 +14,8 @@ They are also smaller than cuckoo filters. They are used in [production systems]
 
 The jfusebin library is  Java library that provides access to high-performance XOR and Binary Fuse filters using Java's Foreign Function & Memory (FFM) API. 
 
+We recommend using the pure Java library [fastfilter_java](https://github.com/FastFilter/fastfilter_java) instead for better performance and portability.
+
 ## Overview
 
 This library wraps a C library, providing Java bindings for probabilistic data structures that can efficiently test set membership with low false positive rates.

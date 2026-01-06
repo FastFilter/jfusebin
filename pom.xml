@@ -90,7 +90,7 @@
                                 <argument>--enable-native-access=ALL-UNNAMED</argument>
                                 <argument>-cp</argument>
                                 <argument>${project.build.directory}/classes:${maven.dependency.classpath}</argument>
-                                <argument>com.example.xfuse.FilterBenchmark</argument>
+                                <argument>me.lemire.xfuse.FilterBenchmark</argument>
                             </arguments>
                         </configuration>
                     </execution>

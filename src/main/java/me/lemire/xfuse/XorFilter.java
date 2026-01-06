@@ -1,4 +1,4 @@
-package com.example.xfuse;
+package me.lemire.xfuse;
 
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
@@ -8,6 +8,16 @@ import java.nio.ByteOrder;
  * Java wrapper for xorfilter using Java 22 FFM API
  */
 public class XorFilter {
+
+    /**
+     * Common interface for all XOR filter types
+     */
+    public interface XorFilterInterface extends AutoCloseable {
+        boolean allocate(int size) throws Throwable;
+        boolean populate(long[] keys) throws Throwable;
+        boolean contains(long key) throws Throwable;
+        long sizeInBytes() throws Throwable;
+    }
 
     private static final Linker linker = Linker.nativeLinker();
     private static final SymbolLookup lookup;
@@ -260,9 +270,14 @@ public class XorFilter {
 
     // Struct layout for binary_fuse16_t
     private static final MemoryLayout BINARY_FUSE16_LAYOUT = MemoryLayout.structLayout(
-        ValueLayout.JAVA_LONG.withName("seed"),
-        ValueLayout.JAVA_LONG.withName("blockLength"),
-        ValueLayout.ADDRESS.withName("fingerprints")
+        ValueLayout.JAVA_LONG.withName("Seed"),
+        ValueLayout.JAVA_INT.withName("Size"),
+        ValueLayout.JAVA_INT.withName("SegmentLength"),
+        ValueLayout.JAVA_INT.withName("SegmentLengthMask"),
+        ValueLayout.JAVA_INT.withName("SegmentCount"),
+        ValueLayout.JAVA_INT.withName("SegmentCountLength"),
+        ValueLayout.JAVA_INT.withName("ArrayLength"),
+        ValueLayout.ADDRESS.withName("Fingerprints")
     );
 
     // Struct layout for xor16_t
@@ -274,15 +289,20 @@ public class XorFilter {
 
     // Struct layout for binary_fuse8_t
     private static final MemoryLayout BINARY_FUSE8_LAYOUT = MemoryLayout.structLayout(
-        ValueLayout.JAVA_LONG.withName("seed"),
-        ValueLayout.JAVA_LONG.withName("blockLength"),
-        ValueLayout.ADDRESS.withName("fingerprints")
+        ValueLayout.JAVA_LONG.withName("Seed"),
+        ValueLayout.JAVA_INT.withName("Size"),
+        ValueLayout.JAVA_INT.withName("SegmentLength"),
+        ValueLayout.JAVA_INT.withName("SegmentLengthMask"),
+        ValueLayout.JAVA_INT.withName("SegmentCount"),
+        ValueLayout.JAVA_INT.withName("SegmentCountLength"),
+        ValueLayout.JAVA_INT.withName("ArrayLength"),
+        ValueLayout.ADDRESS.withName("Fingerprints")
     );
 
     /**
      * Xor8 filter implementation
      */
-    public static class Xor8Filter implements AutoCloseable {
+    public static class Xor8Filter implements XorFilterInterface {
         private final MemorySegment filterSegment;
         private final Arena arena;
 
@@ -323,7 +343,7 @@ public class XorFilter {
     /**
      * BinaryFuse16 filter implementation
      */
-    public static class BinaryFuse16Filter implements AutoCloseable {
+    public static class BinaryFuse16Filter implements XorFilterInterface {
         private final MemorySegment filterSegment;
         private final Arena arena;
 
@@ -364,7 +384,7 @@ public class XorFilter {
     /**
      * Xor16 filter implementation
      */
-    public static class Xor16Filter implements AutoCloseable {
+    public static class Xor16Filter implements XorFilterInterface {
         private final MemorySegment filterSegment;
         private final Arena arena;
 
@@ -405,7 +425,7 @@ public class XorFilter {
     /**
      * BinaryFuse8 filter implementation
      */
-    public static class BinaryFuse8Filter implements AutoCloseable {
+    public static class BinaryFuse8Filter implements XorFilterInterface {
         private final MemorySegment filterSegment;
         private final Arena arena;
 

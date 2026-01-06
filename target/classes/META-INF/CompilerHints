@@ -1,0 +1,11 @@
+dontinline,*.*_all_jmhStub
+dontinline,*.*_avgt_jmhStub
+dontinline,*.*_sample_jmhStub
+dontinline,*.*_ss_jmhStub
+dontinline,*.*_thrpt_jmhStub
+inline,me/lemire/xfuse/FilterBenchmark.benchmarkContainsExisting
+inline,me/lemire/xfuse/FilterBenchmark.benchmarkContainsExistingThroughput
+inline,me/lemire/xfuse/FilterBenchmark.benchmarkContainsNonExisting
+inline,me/lemire/xfuse/FilterBenchmark.benchmarkContainsNonExistingThroughput
+inline,me/lemire/xfuse/FilterBenchmark.setup
+inline,me/lemire/xfuse/FilterBenchmark.tearDown

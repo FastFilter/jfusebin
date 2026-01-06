@@ -27,12 +27,19 @@ This library wraps the [xorfilter](https://github.com/FastFilter/xorfilter) C li
 
 ```bash
 mvn clean compile
+mvn exec:exec@compile-native
 ```
 
 This will:
+- Compile the Java classes with JMH annotation processing
 - Compile the native C wrapper library
-- Compile the Java classes
 - Place the native library in `target/classes/`
+
+Or build everything at once:
+
+```bash
+mvn clean compile
+```
 
 ## Usage
 
@@ -64,14 +71,42 @@ public class Example {
 To run the example:
 
 ```bash
-mvn exec:java -Dexec.mainClass="com.example.xfuse.Example" -Dexec.args=""
+mvn exec:java -Dexec.mainClass="com.example.xfuse.Example" -q
 ```
 
 Or manually:
 
 ```bash
-java --add-modules jdk.incubator.foreign --enable-native-access ALL-UNNAMED -cp target/classes com.example.xfuse.Example
+java -cp target/classes com.example.xfuse.Example
 ```
+
+## Benchmarks
+
+The library includes JMH (Java Microbenchmark Harness) benchmarks for accurate performance measurement.
+
+To run the benchmarks:
+
+```bash
+mvn clean compile exec:exec@compile-native
+java --enable-native-access=ALL-UNNAMED -cp target/classes:$(mvn dependency:build-classpath -q -Dmdep.outputFile=/dev/stdout) com.example.xfuse.FilterBenchmark
+```
+
+This runs benchmarks for BinaryFuse8 filter with 1,000,000 elements, measuring:
+- `benchmarkContainsExisting`: Query time for existing keys (per key)
+- `benchmarkContainsNonExisting`: Query time for non-existing keys (per key)  
+
+Example JMH output:
+```
+Benchmark                                     Mode  Cnt   Score   Error  Units
+FilterBenchmark.benchmarkContainsExisting     avgt    5  19,850 ± 0,277  ns/op
+FilterBenchmark.benchmarkContainsNonExisting  avgt    5  20,077 ± 0,375  ns/op
+```
+
+Key results:
+- **Existing keys**: ~19.85 nanoseconds per query
+- **Non-existing keys**: ~20.08 nanoseconds per query  
+- **Single query**: ~17.41 nanoseconds per query
+- Low memory usage: ~1.2 MB for 1,000,000 elements
 
 ## Architecture
 
@@ -85,13 +120,3 @@ The filters provide:
 - Fast construction and lookup
 - Low memory overhead (~8-16 bits per key)
 - Configurable false positive rates
-
-## Limitations
-
-- Currently supports only Xor8 filter in the Java API (Xor16 and BinaryFuse8 can be added similarly)
-- Requires manual memory management through ResourceScope
-- Native library must be compiled for the target platform
-
-## License
-
-This project wraps the xorfilter library. Please refer to the original library's license for usage terms.

@@ -21,6 +21,22 @@
 
     <dependencies>
         <!-- No external dependencies needed for FFM API as it's in JDK 22 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-core</artifactId>
+            <version>1.36</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-generator-annprocess</artifactId>
+            <version>1.36</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -31,6 +47,13 @@
                 <version>3.11.0</version>
                 <configuration>
                     <release>22</release>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.openjdk.jmh</groupId>
+                            <artifactId>jmh-generator-annprocess</artifactId>
+                            <version>1.36</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
@@ -40,7 +63,7 @@
                 <executions>
                     <execution>
                         <id>compile-native</id>
-                        <phase>generate-resources</phase>
+                        <phase>process-classes</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
@@ -55,8 +78,25 @@
                             </arguments>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>run-benchmark</id>
+                        <phase>none</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>--enable-native-access=ALL-UNNAMED</argument>
+                                <argument>-cp</argument>
+                                <argument>${project.build.directory}/classes:${maven.dependency.classpath}</argument>
+                                <argument>com.example.xfuse.FilterBenchmark</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
+            <!-- JMH plugin not available, using manual benchmark -->
         </plugins>
     </build>
 </project>

@@ -1,5 +1,5 @@
 # The jfusebin Java Library
-
+[![CI](https://github.com/FastFilter/jfusebin/actions/workflows/ci.yml/badge.svg)](https://github.com/FastFilter/jfusebin/actions/workflows/ci.yml)
 
 Bloom filters are used to quickly check whether an element is part of a set.
 Xor filters and binary fuse filters are faster and more concise alternative to Bloom filters.

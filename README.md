@@ -47,6 +47,12 @@ This will:
 - Compile the native C wrapper library
 - Place the native library in `target/classes/`
 
+3. Run tests
+
+```
+mvn test
+```
+
 ## API
 
 All filter types implement the `XorFilterInterface`:

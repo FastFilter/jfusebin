@@ -25,10 +25,10 @@ public class XorFilter {
     static {
         // Load the native library
         try {
-            System.load(System.getProperty("user.dir") + "/target/classes/libxfuse.dylib");
-        } catch (UnsatisfiedLinkError e) {
-            // Try loading from classpath
             System.loadLibrary("xfuse");
+        } catch (UnsatisfiedLinkError e) {
+            System.err.println("Native code library failed to load.\n" + e);
+            System.err.println("library path: " + System.getProperty("java.library.path"));
         }
         lookup = SymbolLookup.loaderLookup();
     }

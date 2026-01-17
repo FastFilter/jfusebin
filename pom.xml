@@ -17,6 +17,9 @@
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <library.name>xfuse</library.name>
+        <library.prefix>lib</library.prefix>
+        <library.extension>dylib</library.extension>
     </properties>
 
     <dependencies>
@@ -73,7 +76,7 @@
                                 <argument>-shared</argument>
                                 <argument>-fPIC</argument>
                                 <argument>-o</argument>
-                                <argument>${project.build.directory}/classes/libxfuse.dylib</argument>
+                                <argument>${project.build.directory}/classes/${library.prefix}${library.name}.${library.extension}</argument>
                                 <argument>src/main/c/xfuse.c</argument>
                             </arguments>
                         </configuration>
@@ -108,4 +111,29 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>mac</id>
+            <activation>
+                <os>
+                    <name>Mac OS X</name>
+                </os>
+            </activation>
+            <properties>
+                <library.extension>dylib</library.extension>
+            </properties>
+        </profile>
+        <profile>
+            <id>linux</id>
+            <activation>
+                <os>
+                    <name>Linux</name>
+                </os>
+            </activation>
+            <properties>
+                <library.extension>so</library.extension>
+            </properties>
+        </profile>
+    </profiles>
 </project>

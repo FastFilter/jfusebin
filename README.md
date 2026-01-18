@@ -152,8 +152,8 @@ FilterBenchmark.benchmarkContainsNonExisting             avgt    5        19,607
 
 How to interpret this data:
 
-- We can issue over 43 million requests per second.
-- Conversely, we can issue about one query every 23 nanoseconds.
+- We can issue over 50 million requests per second.
+- Conversely, we can issue about one query every 20 nanoseconds.
 
 ## Architecture
 

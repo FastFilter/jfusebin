@@ -63,6 +63,9 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
+                <configuration>
+                    <includeProjectDependencies>true</includeProjectDependencies>
+                </configuration>
                 <executions>
                     <execution>
                         <id>compile-native</id>
@@ -93,14 +96,52 @@
                                 <argument>--enable-native-access=ALL-UNNAMED</argument>
                                 <argument>-Djava.library.path=${project.build.directory}/classes</argument>
                                 <argument>-cp</argument>
-                                <argument>${project.build.directory}/classes:${maven.dependency.classpath}</argument>
+                                <argument>${maven.dependency.classpath}:${project.build.directory}/classes</argument>
+                                <argument>org.openjdk.jmh.Main</argument>
+                                <argument>-f</argument>
+                                <argument>0</argument>
                                 <argument>me.lemire.xfuse.FilterBenchmark</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>run-statistics</id>
+                        <phase>none</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>--enable-native-access=ALL-UNNAMED</argument>
+                                <argument>-Djava.library.path=${project.build.directory}/classes</argument>
+                                <argument>-cp</argument>
+                                <argument>${maven.dependency.classpath}:${project.build.directory}/classes</argument>
+                                <argument>me.lemire.xfuse.Statistics</argument>
                             </arguments>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
             <!-- JMH plugin not available, using manual benchmark -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>build-classpath</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>build-classpath</goal>
+                        </goals>
+                        <configuration>
+                            <outputProperty>maven.dependency.classpath</outputProperty>
+                            <scope>runtime</scope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>

@@ -104,7 +104,7 @@ The library includes a performance analysis tool that measures:
 To run the performance analysis:
 
 ```bash
-mvn exec:java -Dexec.mainClass="me.lemire.xfuse.Statistics" -q
+mvn process-classes exec:exec@run-statistics -q
 ```
 
 ## Bits per element (bits/element)
@@ -133,8 +133,7 @@ The library includes JMH (Java Microbenchmark Harness) benchmarks for accurate p
 To run the benchmarks:
 
 ```bash
-mvn clean compile exec:exec@compile-native
-java --enable-native-access=ALL-UNNAMED -cp target/classes:$(mvn dependency:build-classpath -q -Dmdep.outputFile=/dev/stdout) me.lemire.xfuse.FilterBenchmark
+mvn initialize exec:exec@run-benchmark
 ```
 
 This runs benchmarks for BinaryFuse8 filter with 1,000,000 elements, measuring:
@@ -144,11 +143,11 @@ This runs benchmarks for BinaryFuse8 filter with 1,000,000 elements, measuring:
 
 Example JMH output:
 ```
-Benchmark                                                Mode  Cnt         Score         Error  Units
-FilterBenchmark.benchmarkContainsExistingThroughput     thrpt    5  44038254,445 ± 1339377,802  ops/s
-FilterBenchmark.benchmarkContainsNonExistingThroughput  thrpt    5  43633598,029 ±  239529,108  ops/s
-FilterBenchmark.benchmarkContainsExisting                avgt    5        23,013 ±       0,629  ns/op
-FilterBenchmark.benchmarkContainsNonExisting             avgt    5        22,715 ±       1,545  ns/op
+Benchmark                                                Mode  Cnt         Score        Error  Units
+FilterBenchmark.benchmarkContainsExistingThroughput     thrpt    5  50484381,496 ± 609123,975  ops/s
+FilterBenchmark.benchmarkContainsNonExistingThroughput  thrpt    5  51331184,332 ± 771448,745  ops/s
+FilterBenchmark.benchmarkContainsExisting                avgt    5        19,589 ±      1,489  ns/op
+FilterBenchmark.benchmarkContainsNonExisting             avgt    5        19,607 ±      0,469  ns/op
 ```
 
 How to interpret this data:

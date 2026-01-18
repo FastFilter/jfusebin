@@ -186,7 +186,8 @@ public class XorFilter {
             );
             xor8_contain = linker.downcallHandle(
                 lookup.find("xfuse_xor8_contain").orElseThrow(),
-                xor8_contain_desc
+                xor8_contain_desc,
+                Linker.Option.critical(false)
             );
             xor8_free = linker.downcallHandle(
                 lookup.find("xfuse_xor8_free").orElseThrow(),
@@ -206,7 +207,8 @@ public class XorFilter {
             );
             binary_fuse16_contain = linker.downcallHandle(
                 lookup.find("xfuse_binary_fuse16_contain").orElseThrow(),
-                binary_fuse16_contain_desc
+                binary_fuse16_contain_desc,
+                Linker.Option.critical(false)
             );
             binary_fuse16_free = linker.downcallHandle(
                 lookup.find("xfuse_binary_fuse16_free").orElseThrow(),
@@ -226,7 +228,8 @@ public class XorFilter {
             );
             xor16_contain = linker.downcallHandle(
                 lookup.find("xfuse_xor16_contain").orElseThrow(),
-                xor16_contain_desc
+                xor16_contain_desc,
+                Linker.Option.critical(false)
             );
             xor16_free = linker.downcallHandle(
                 lookup.find("xfuse_xor16_free").orElseThrow(),
@@ -246,7 +249,8 @@ public class XorFilter {
             );
             binary_fuse8_contain = linker.downcallHandle(
                 lookup.find("xfuse_binary_fuse8_contain").orElseThrow(),
-                binary_fuse8_contain_desc
+                binary_fuse8_contain_desc,
+                Linker.Option.critical(false)
             );
             binary_fuse8_free = linker.downcallHandle(
                 lookup.find("xfuse_binary_fuse8_free").orElseThrow(),

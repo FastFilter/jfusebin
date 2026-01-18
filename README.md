@@ -104,7 +104,7 @@ The library includes a performance analysis tool that measures:
 To run the performance analysis:
 
 ```bash
-mvn process-classes exec:exec@run-statistics -q
+mvn exec:exec@run-statistics -q
 ```
 
 ## Bits per element (bits/element)
